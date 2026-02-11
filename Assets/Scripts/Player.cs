@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, Damageable
 {
-    [SerializeField] int maxHp = 100;
     [SerializeField] int hp = 100;
     [SerializeField] float speed = 5f;
     [SerializeField] Transform cam;
@@ -60,5 +59,10 @@ public class Player : MonoBehaviour, Damageable
         Debug.Log("TakeDamage!");
 
         hp -= damage;
+
+        if (hp <= 0)
+        {
+            State.Publish(Condition.FINISH);
+        }
     }
 }

@@ -1,14 +1,17 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public abstract class Bullet : MonoBehaviour
 {
     [SerializeField] float speed;
+    [SerializeField] float lifeTime;
     [SerializeField] int baseDamage = 15;
     [SerializeField] Transform turretHead;
     [SerializeField] Turret turret;
-    [SerializeField] Rigidbody rb;
+
     [SerializeField] Vector3 dir;
+
+    float timer;
 
     private void Awake()
     {
@@ -16,15 +19,21 @@ public class Bullet : MonoBehaviour
         speed = turret.bulletSpeed; 
     }
 
-    public void Init(Vector3 targetPos)
+    public void Init(Vector3 direction)
     {
-        dir = (targetPos - transform.position).normalized;
+        dir = direction.normalized;
+        timer = 0f;
+    }
 
-        // 총알 모델이 forward(+Z) 방향으로 날아가게 되어있다는 기준
-        transform.rotation = Quaternion.LookRotation(dir);
+    void Update()
+    {
+        transform.position += dir * speed * Time.deltaTime;
 
-        rb.linearVelocity = dir * speed;   // Unity 6 계열이면 linearVelocity
-        // rb.velocity = dir * speed;       // 구버전이면 velocity
+        timer += Time.deltaTime;
+        if (timer >= lifeTime)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
