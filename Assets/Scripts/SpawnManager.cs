@@ -26,14 +26,32 @@ public class SpawnManager : MonoBehaviour
     private void Awake()
     {
         UnitListFull();
+    }
 
+    private void OnEnable()
+    {
+        State.Subscribe(Condition.BATTLE, StartSpawn);
+        State.Subscribe(Condition.FINISH, StopSpawn);
+    }
+
+    private void OnDisable()
+    {
+        State.Unsubscribe(Condition.BATTLE, StartSpawn);
+        State.Subscribe(Condition.FINISH, StartSpawn);
+    }
+
+    void StartSpawn()
+    {
         if (spawnCoroutine == null)
         {
             spawnCoroutine = StartCoroutine(CreateRoutine());
         }
     }
-            
 
+    void StopSpawn()
+    {
+        StopCoroutine(spawnCoroutine);
+    }
 
     void UnitListFull()
     {

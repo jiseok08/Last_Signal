@@ -6,19 +6,19 @@ public class StartButton : MonoBehaviour
 
     private void OnEnable()
     {
-        State.Subscribe(Condition.LOBBY, ActiveTrue);
-        State.Subscribe(Condition.READY, ActiveFalse);
+        State.Subscribe(Condition.READY, ActiveTrue);
+        State.Subscribe(Condition.BATTLE, ActiveFalse);
     }
 
     private void OnDisable()
     {
-        State.Unsubscribe(Condition.LOBBY, ActiveTrue);
-        State.Unsubscribe(Condition.READY, ActiveFalse);
+        State.Unsubscribe(Condition.READY, ActiveTrue);
+        State.Unsubscribe(Condition.BATTLE, ActiveFalse);
     }
 
     public void StartGame()
     {
-        State.Publish(Condition.READY);
+        State.Publish(Condition.BATTLE);
     }
 
     void ActiveTrue()
