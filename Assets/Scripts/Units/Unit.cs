@@ -1,19 +1,23 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
-    [SerializeField] protected int atk;
-    [SerializeField] protected int hp;
     [SerializeField] protected float speed;
     [SerializeField] protected float rotateSpeed = 720f;
+    [SerializeField] protected int atk;
+    [SerializeField] protected int hp;
     [SerializeField] public Unit ParentPrefab;
-    [SerializeField] protected Collider attackRange;
     [SerializeField] protected Rigidbody rb;
-    [SerializeField] protected Core core;
-    [SerializeField] protected Player player;
+    [SerializeField] public Core core;
+    [SerializeField] public Player player;
     [SerializeField] public Transform target;
+
+
+
+
     [SerializeField] bool rotateToMoveDir = true;
 
     public void Awake()
@@ -29,11 +33,7 @@ public abstract class Unit : MonoBehaviour
 
         target = core.transform;
 
-    }
-
-    private void Start()
-    {
-        // Invoke(nameof(Die), 1);
+        rotateSpeed = 720f;
     }
 
     private void OnEnable()
@@ -68,6 +68,15 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
+    public void Attack(Damageable damageable)
+    {
+        Debug.Log("Attack");
+
+        damageable.TakeDamage(15 + (atk * 3));
+
+        Die();
+    }
+
     public void TakeDamage(int damage)
     {
         hp -= damage;
@@ -81,22 +90,12 @@ public abstract class Unit : MonoBehaviour
     public void Die()
     {
         GameManager.Instance.Spawn.Release(ParentPrefab, this);
+
+        ChangeTarget(core.transform);
     }
 
     void FixedUpdate()
     {
         Move();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Core core = other.GetComponent<Core>();
-
-        if (core != null)
-        {
-            core.TakeDamage(100);
-
-            Die();
-        }
     }
 }

@@ -3,32 +3,16 @@ using UnityEngine;
 public class UnitRange : MonoBehaviour
 {
     [SerializeField] Unit unit;
-    [SerializeField] Collider target;
-
-    private void Awake()
-    {
-        unit = transform.parent.GetComponent<Unit>();
-    
-        target = null;
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        Damageable damageable = other.GetComponent<Damageable>();
+        Damageable damageble = other.GetComponent<Damageable>();
 
-        target = other;
-
-        if (damageable != null)
+        if (damageble != null)
         {
-            unit.ChangeTarget(other.transform);
-        }
-    }
+            Debug.Log("aaaaaaaaaaaaa Range");
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other == target)
-        {
-            unit.ChangeTarget(unit.target);
+            unit.Attack(damageble);
         }
     }
 }

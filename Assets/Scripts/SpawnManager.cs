@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -65,10 +64,9 @@ public class SpawnManager : MonoBehaviour
                     continue;
                 }
             }
-            else
-            {
-                GetPool(unitPrefabs[0]);
-            }
+
+            GetPool(unitPrefabs[0]);
+            
         }
     }
 
@@ -140,19 +138,19 @@ public class SpawnManager : MonoBehaviour
 
             if (GameManager.Instance.Wave.BossWave())
             {
-                // unitList.Add(bossPrefabs[bossCount++ % bossPrefabs.Count]);
+                GetPool(bossPrefabs[bossCount++ % bossPrefabs.Count]);
 
-                // if (waveCreateCount < maxCreateCount)
-                // {
-                //     waveCreateCount = Mathf.Min(maxCreateCount, waveCreateCount + 10);
-                // }
+                if (waveCreateCount < maxCreateCount)
+                {
+                    waveCreateCount = Mathf.Min(maxCreateCount, waveCreateCount + 10);
+                }
             }
 
             UnitListFull();
 
             Debug.Log(waveCreateCount);
 
-            createCooldown = GameManager.Instance.Wave.wave * 0.03f;
+            createCooldown -= GameManager.Instance.Wave.wave * 0.03f;
         }
     }
 }

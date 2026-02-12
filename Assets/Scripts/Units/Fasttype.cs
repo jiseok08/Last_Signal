@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public class Fasttype : Unit
+public class FastType : Unit
 {
     void Awake()
     {
         base.Awake();
 
-        atk = 5;
-        hp = 30;
-        speed = 12;
+        atk = 7;
+        hp = 80;
+        speed = 13;
     }
 }
 

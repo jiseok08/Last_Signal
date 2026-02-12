@@ -10,7 +10,6 @@ public enum Condition
     
 public static class State
 {
-    private static Action lobby;
     private static Action ready;
     private static Action battle;
     private static Action finish;
@@ -19,8 +18,6 @@ public static class State
     {
         switch (condition)
         {
-            case Condition.LOBBY: lobby += action;
-                break;
             case Condition.READY: ready += action;
                 break;
             case Condition.FINISH: finish += action;
@@ -34,8 +31,6 @@ public static class State
     {
         switch (condition)
         {
-            case Condition.LOBBY: lobby -= action;
-                break;
             case Condition.READY: ready -= action;
                 break;
             case Condition.FINISH: finish -= action;
@@ -49,8 +44,6 @@ public static class State
     {
         switch (condition)
         {
-            case Condition.LOBBY: lobby?.Invoke(); 
-                break;
             case Condition.READY: ready?.Invoke();
                 break;
             case Condition.FINISH: finish?.Invoke();
